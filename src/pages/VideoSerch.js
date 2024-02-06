@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import YouTube from 'react-youtube';
 import VideoPlayer from './VideoPlayer';
-
+import "../App.css"
+import Form from 'react-bootstrap/Form';
+import {Button} from "react-bootstrap"
 function VideoSerch(params) {
     const [searchTerm, setSearchTerm] = useState('');
     const [videos, setVideos] = useState([]);   
     const [addVideo,setAddVideo]=useState([]) 
-    const [show,setShow]=useState(false)
+    
     const handleSearch = async () => {
         const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
           params: {
@@ -29,9 +31,12 @@ setAddVideo([...addVideo,video])
 
     return(
         <div>
-            <h1>Reproductor de musica</h1>
-      <input type="text" value={searchTerm} placeholder='buscador'  onChange={(e) => setSearchTerm(e.target.value)} />
-      <button onClick={handleSearch}>Search</button>
+            <h1 className='title'>Reproductor de musica</h1>
+      <Form.Control className='inputVS' type="text" value={searchTerm} placeholder='buscador'  onChange={(e) => setSearchTerm(e.target.value)} />
+     <div className='d-grid gap-2 pt-4'>
+      <Button  variant="danger" onClick={handleSearch}>Search</Button>  
+     </div>
+      
       {videos?.map((video) => (
         <div>
          <YouTube videoId={video.id.videoId} > </YouTube>
