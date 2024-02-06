@@ -6,7 +6,8 @@ import VideoPlayer from './VideoPlayer';
 function VideoSerch(params) {
     const [searchTerm, setSearchTerm] = useState('');
     const [videos, setVideos] = useState([]);   
-    const [addVideo,setAddVideo]=useState("") 
+    const [addVideo,setAddVideo]=useState([]) 
+    const [show,setShow]=useState(false)
     const handleSearch = async () => {
         const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
           params: {
@@ -21,21 +22,25 @@ function VideoSerch(params) {
 );
 setVideos(response.data.items);}
 const sendVideo =(video)=>{
+    console.log(`send video`);
 console.log(video);
-setAddVideo(video)
+setAddVideo([...addVideo,video])
 }
+
     return(
         <div>
-      <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            <h1>Reproductor de musica</h1>
+      <input type="text" value={searchTerm} placeholder='buscador'  onChange={(e) => setSearchTerm(e.target.value)} />
       <button onClick={handleSearch}>Search</button>
-      {videos.map((video) => (
+      {videos?.map((video) => (
         <div>
          <YouTube videoId={video.id.videoId} > </YouTube>
         <button onClick={()=>sendVideo(video.id.videoId)}>Agregar a la lista</button>   
         </div>
         
       ))}
-      <VideoPlayer singerPlay={addVideo} ></VideoPlayer>
+      
+      <VideoPlayer addVideo={addVideo} ></VideoPlayer>
     </div>
     )
 }

@@ -1,19 +1,32 @@
 
 import YouTube from 'react-youtube';
 import "./VideoPlayer.css"
-function VideoPlayer({singerPlay}) {
-    console.log(singerPlay);
-    let playlist = "77oNTXqXNYE"
+import { useEffect, useState } from 'react';
+function VideoPlayer({addVideo}) {
+    const [show,setShouw]= useState(true)
+    console.log(addVideo);
+    let playlist = ""
    
     function combinarConComa(str2) {
-         playlist = playlist + ',' + str2;
+        if (!playlist) {
+            setShouw(false)
+            return playlist =str2
+        }
+         playlist += ',' + str2;
         return playlist;
     }
-    playlist= combinarConComa(singerPlay)
-     console.log(playlist);
+    
+     if (addVideo) {
+        addVideo?.forEach((value) => {
+          playlist = combinarConComa(value);
+        });
+      }
+      console.log(playlist);
+    
    return<>
-   <h1>Youtuber</h1>
-   <YouTube className='playerVideo'  opts={{  playerVars: { autoplay: 1, playlist: playlist},width: 640, height: 360 }} />
+   {!show &&<YouTube className='playerVideo'  opts={{  playerVars: { autoplay: 0, playlist: playlist},width: 640, height: 360 }} />}
+   
+   
    </> //
     
 }
